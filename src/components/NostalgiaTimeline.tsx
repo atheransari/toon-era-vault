@@ -7,49 +7,49 @@ const timelineEvents = [
     title: "Cartoon Network Boom",
     description: "The golden age begins with shows like Dexter's Lab",
     color: "from-blue-400 to-cyan-500",
-    icon: "📺"
+    image: "/images/dexter.jpg"
   },
   {
-    year: "1996",
+    year: "1996", 
     title: "Saturday Morning Ritual",
     description: "Waking up at 6 AM for cartoons becomes sacred",
     color: "from-yellow-400 to-orange-500",
-    icon: "🌅"
+    image: "/images/scooby.jpg"
   },
   {
     year: "1997",
-    title: "Game Boy Color",
+    title: "Game Boy Color", 
     description: "Pokemon Red/Blue changes everything",
     color: "from-green-400 to-emerald-500",
-    icon: "🎮"
+    image: "/images/johnny.jpg"
   },
   {
     year: "1998",
     title: "Powerpuff Girls Premiere",
-    description: "Sugar, spice, and everything nice hits our screens",
+    description: "Sugar, spice, and everything nice hits our screens", 
     color: "from-pink-400 to-red-500",
-    icon: "💖"
+    image: "/images/powerpuff.jpg"
   },
   {
     year: "1999",
     title: "Ed, Edd n Eddy",
     description: "Summer adventures with the cul-de-sac crew",
-    color: "from-green-400 to-teal-500",
-    icon: "🍭"
+    color: "from-green-400 to-teal-500", 
+    image: "/images/dexter.jpg"
   },
   {
     year: "2000",
-    title: "Courage Premieres",
+    title: "Courage Premieres", 
     description: "Scared but couldn't stop watching",
     color: "from-purple-400 to-pink-500",
-    icon: "😱"
+    image: "/images/courage.jpg"
   },
   {
     year: "2001",
     title: "Adult Swim Begins",
     description: "Late night cartoons for when we got older",
     color: "from-indigo-400 to-purple-500",
-    icon: "🌙"
+    image: "/images/johnny.jpg"
   }
 ];
 
@@ -76,7 +76,13 @@ const NostalgiaTimeline = () => {
                 <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
                   <Card className="p-6 bg-white/80 backdrop-blur-sm border-2 border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div className={`h-32 bg-gradient-to-br ${event.color} rounded-lg p-4 mb-4 relative overflow-hidden`}>
-                      <div className="absolute top-2 right-2 text-3xl">{event.icon}</div>
+                      <div className="absolute top-2 right-2 w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+                        <img 
+                          src={event.image} 
+                          alt={event.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <div className="text-white">
                         <h3 className="font-cartoon text-2xl mb-2">{event.year}</h3>
                         <p className="font-pixel text-sm">{event.title}</p>

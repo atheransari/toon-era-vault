@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Play, Pause, Volume2 } from 'lucide-react';
@@ -9,50 +9,104 @@ const themeSongs = [
     show: "Dexter's Laboratory",
     title: "What a Fine Day for Science",
     duration: "0:30",
-    color: "from-blue-500 to-purple-600"
+    color: "from-blue-500 to-purple-600",
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   },
   {
-    show: "Powerpuff Girls",
+    show: "Powerpuff Girls", 
     title: "Super Hero Girls",
     duration: "0:45",
-    color: "from-pink-500 to-red-600"
+    color: "from-pink-500 to-red-600",
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   },
   {
     show: "Scooby-Doo",
-    title: "Scooby-Doo Theme",
+    title: "Scooby-Doo Theme", 
     duration: "1:00",
-    color: "from-yellow-500 to-orange-600"
+    color: "from-yellow-500 to-orange-600",
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   },
   {
     show: "Johnny Bravo",
     title: "Do the Monkey",
-    duration: "0:35",
-    color: "from-yellow-400 to-amber-600"
+    duration: "0:35", 
+    color: "from-yellow-400 to-amber-600",
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   },
   {
     show: "Courage",
     title: "Courage's Scream",
     duration: "0:15",
-    color: "from-purple-500 to-pink-600"
+    color: "from-purple-500 to-pink-600", 
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   },
   {
     show: "Ed, Edd n Eddy",
     title: "Jawbreaker Blues",
     duration: "0:40",
-    color: "from-green-500 to-teal-600"
+    color: "from-green-500 to-teal-600",
+    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // placeholder audio
   }
 ];
 
 const ThemeSongJukebox = () => {
   const [currentPlaying, setCurrentPlaying] = useState<number | null>(null);
+  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
 
-  const playTheme = (index: number) => {
-    if (currentPlaying === index) {
-      setCurrentPlaying(null);
-      console.log(`Paused ${themeSongs[index].show} theme`);
-    } else {
-      setCurrentPlaying(index);
-      console.log(`Playing ${themeSongs[index].show} theme song!`);
+  useEffect(() => {
+    // Initialize audio elements
+    audioRefs.current = themeSongs.map((song) => {
+      const audio = new Audio(song.audioUrl);
+      audio.preload = 'metadata';
+      return audio;
+    });
+
+    // Cleanup function
+    return () => {
+      audioRefs.current.forEach(audio => {
+        if (audio) {
+          audio.pause();
+          audio.src = '';
+        }
+      });
+    };
+  }, []);
+
+  const playTheme = async (index: number) => {
+    try {
+      // Stop currently playing audio
+      if (currentPlaying !== null && audioRefs.current[currentPlaying]) {
+        audioRefs.current[currentPlaying]?.pause();
+        if (audioRefs.current[currentPlaying]) {
+          audioRefs.current[currentPlaying]!.currentTime = 0;
+        }
+      }
+
+      if (currentPlaying === index) {
+        setCurrentPlaying(null);
+        console.log(`Paused ${themeSongs[index].show} theme`);
+      } else {
+        const audio = audioRefs.current[index];
+        if (audio) {
+          await audio.play();
+          setCurrentPlaying(index);
+          console.log(`Playing ${themeSongs[index].show} theme song!`);
+          
+          // Handle audio end
+          audio.onended = () => {
+            setCurrentPlaying(null);
+          };
+        }
+      }
+    } catch (error) {
+      console.log(`Could not play audio for ${themeSongs[index].show}:`, error);
+      // Fallback to just showing play state without actual audio
+      if (currentPlaying === index) {
+        setCurrentPlaying(null);
+      } else {
+        setCurrentPlaying(index);
+        setTimeout(() => setCurrentPlaying(null), 3000); // Auto-stop after 3 seconds
+      }
     }
   };
 
