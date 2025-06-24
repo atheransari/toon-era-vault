@@ -5,63 +5,63 @@ import { Card } from '@/components/ui/card';
 const characters = [
   {
     name: "Dexter",
-    emoji: "🧪",
+    image: "/images/dexter.jpg",
     caption: "The scientist in all of us",
     color: "from-blue-400 to-purple-500",
     show: "Dexter's Laboratory"
   },
   {
     name: "Powerpuff Girls",
-    emoji: "💖",
+    image: "/images/powerpuff.jpg",
     caption: "Your fearless protectors",
     color: "from-pink-400 to-red-500",
     show: "The Powerpuff Girls"
   },
   {
     name: "Scooby-Doo",
-    emoji: "🐕",
+    image: "/images/scooby.jpg",
     caption: "The best late-night snack buddy",
     color: "from-yellow-400 to-orange-500",
     show: "Scooby-Doo"
   },
   {
     name: "Johnny Bravo",
-    emoji: "💪",
+    image: "/images/johnny.jpg",
     caption: "Confidence was everything",
     color: "from-yellow-300 to-amber-500",
     show: "Johnny Bravo"
   },
   {
     name: "Courage",
-    emoji: "😱",
+    image: "/images/courage.jpg",
     caption: "Bravery despite being scared",
     color: "from-purple-400 to-pink-500",
     show: "Courage the Cowardly Dog"
   },
   {
     name: "Ed, Edd & Eddy",
-    emoji: "🍭",
+    image: "/placeholder.svg",
     caption: "Summer adventures with friends",
     color: "from-green-400 to-teal-500",
     show: "Ed, Edd n Eddy"
   },
   {
     name: "Tom & Jerry",
-    emoji: "🐱",
+    image: "/placeholder.svg",
     caption: "Classic chase never gets old",
     color: "from-gray-400 to-blue-500",
     show: "Tom and Jerry"
   },
   {
     name: "Bugs Bunny",
-    emoji: "🐰",
+    image: "/placeholder.svg",
     caption: "What's up, childhood?",
     color: "from-orange-400 to-red-500",
     show: "Looney Tunes"
   },
   {
     name: "The Flintstones",
-    emoji: "🦕",
+    image: "/placeholder.svg",
     caption: "Stone age but modern problems",
     color: "from-stone-400 to-amber-600",
     show: "The Flintstones"
@@ -94,9 +94,13 @@ const CharacterGallery = () => {
               onMouseLeave={() => setHoveredCard(null)}
             >
               <div className={`h-64 bg-gradient-to-br ${character.color} p-6 relative overflow-hidden`}>
-                {/* Character emoji */}
-                <div className="text-8xl mb-4 text-center animate-bounce-slow">
-                  {character.emoji}
+                {/* Character image */}
+                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                  <img 
+                    src={character.image} 
+                    alt={character.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Hover overlay */}
